@@ -9,7 +9,7 @@ CREATE CONSTRAINT ON (r:Response) ASSERT r.name IS UNIQUE;
 
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
-FROM 'file:///Users/nicole/Documents/GitHub/consumer_complaints/consumer_complaints_304k.csv' AS line
+FROM 'file:///Users/nicole/consumer_complaints_310k.csv' AS line
 
 CREATE (complaint:Complaint { id: TOINT(line.ComplaintID) })
 SET complaint.date = line.DateReceived,
@@ -30,7 +30,7 @@ SET r.timely = CASE line.TimelyResponse WHEN 'Yes' THEN true ELSE false END,
 
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
-FROM 'file:///Users/nicole/Documents/GitHub/consumer_complaints/consumer_complaints_304k.csv' AS line
+FROM 'file:///Users/nicole/consumer_complaints_310k.csv' AS line
 
 MATCH (complaint:Complaint { id: TOINT(line.ComplaintID) })
 
@@ -44,7 +44,7 @@ CREATE (complaint)-[:WITH]->(issue)
 
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
-FROM 'file:///Users/nicole/Documents/GitHub/consumer_complaints/consumer_complaints_304k.csv' AS line
+FROM 'file:///Users/nicole/consumer_complaints_310k.csv' AS line
 
 MATCH (complaint:Complaint { id: TOINT(line.ComplaintID) })
 MATCH (complaint)-[:ABOUT]->(product:Product)
