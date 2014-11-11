@@ -1,9 +1,5 @@
 CREATE CONSTRAINT ON (c:Complaint) ASSERT c.id IS UNIQUE;
 CREATE CONSTRAINT ON (c:Company) ASSERT c.name IS UNIQUE;
-CREATE CONSTRAINT ON (p:Product) ASSERT p.name IS UNIQUE;
-CREATE CONSTRAINT ON (s:SubProduct) ASSERT s.name IS UNIQUE;
-CREATE CONSTRAINT ON (i:Issue) ASSERT i.name IS UNIQUE;
-CREATE CONSTRAINT ON (s:SubIssue) ASSERT s.name IS UNIQUE;
 CREATE CONSTRAINT ON (r:Response) ASSERT r.name IS UNIQUE;
 
 
@@ -28,6 +24,10 @@ SET r.timely = CASE line.TimelyResponse WHEN 'Yes' THEN true ELSE false END,
 ;
 
 
+CREATE CONSTRAINT ON (p:Product) ASSERT p.name IS UNIQUE;
+CREATE CONSTRAINT ON (i:Issue) ASSERT i.name IS UNIQUE;
+
+
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
 FROM 'file:///Users/nicole/consumer_complaints_310k.csv' AS line
@@ -40,6 +40,10 @@ MERGE (issue:Issue {name: UPPER(line.Issue) })
 CREATE (complaint)-[:ABOUT]->(product)
 CREATE (complaint)-[:WITH]->(issue)
 ;
+
+
+CREATE CONSTRAINT ON (s:SubProduct) ASSERT s.name IS UNIQUE;
+CREATE CONSTRAINT ON (s:SubIssue) ASSERT s.name IS UNIQUE;
 
 
 USING PERIODIC COMMIT
