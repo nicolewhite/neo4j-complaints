@@ -37,12 +37,13 @@ RETURN company.name AS company, COUNT(*) AS count
 ORDER BY count DESC
 LIMIT 10
 
-// Top product, sub-product combinations with timely responses at Wells Fargo.
+// Top product, issue combinations with disputed responses at Wells Fargo.
 MATCH (wf:Company {name:'WELLS FARGO'})
 MATCH (complaint:Complaint)-[:AGAINST]->(wf)
+MATCH (:Response)-[:TO {disputed:true}]->(complaint)
 MATCH (complaint)-[:ABOUT]->(p:Product)
-MATCH (complaint)-[:ABOUT]->(sub:SubProduct)
-RETURN p.name AS product, sub.name AS subproduct, COUNT(*) AS count
+MATCH (complaint)-[:WITH]->(i:Issue)
+RETURN p.name AS product, i.name AS issue, COUNT(*) AS count
 ORDER BY count DESC
 
 // Sub-products that belong to multiple product categories.
