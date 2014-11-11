@@ -2,7 +2,7 @@
 
 Download a dataset size that you think your machine can handle. We'll be exploring these in text editors / Excel, so **be sure to choose a size that will not lock up your machine when you try to open it**.
 
-* [Large dataset, 310k rows](https://www.dropbox.com/s/4huddfi3yi0difd/consumer_complaints_310k.csv?dl=0)
+* [Large dataset, 310k rows](https://www.dropbox.com/s/zkobonyyssq6imk/consumer_complaints_310k.csv?dl=0)
 * [Medium dataset, 100k rows](https://www.dropbox.com/s/b8ym4bw2s38xkpr/consumer_complaints_100k.csv?dl=0)
 * [Small dataset, 30k rows](https://www.dropbox.com/s/1vw5h86kk8bcklw/consumer_complaints_30k.csv?dl=0)
 * [X-Small dataset, 1k rows](https://www.dropbox.com/s/kahvm0x4mxgpk58/consumer_complaints_1k.csv?dl=0)
