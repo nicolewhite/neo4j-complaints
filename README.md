@@ -9,7 +9,7 @@ Download a dataset size that you think your machine can handle. We'll be explori
 
 Source: http://catalog.data.gov/dataset/consumer-complaint-database
 
-The raw .csv file from the source above has been cleaned slightly in `clean.R`, along with randomly sampled to create the smaller datasets.
+The raw .csv file from the source above has been cleaned slightly in [clean.R](https://github.com/nicolewhite/consumer_complaints/blob/master/clean.R), along with randomly sampled to create the smaller datasets.
 
 # Model
 
