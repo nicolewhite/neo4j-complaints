@@ -17,19 +17,28 @@ SET complaint.date = line.DateReceived,
     complaint.month = TOINT(SPLIT(line.DateReceived, '-')[1]),
     complaint.day = TOINT(SPLIT(line.DateReceived, '-')[2])
 
-
-MERGE (product:Product { name: UPPER(line.Product) })
-MERGE (issue:Issue {name: UPPER(line.Issue) })
 MERGE (company:Company { name: UPPER(line.Company) })
 MERGE (response:Response { name: UPPER(line.CompanyResponse) })
 
-CREATE (complaint)-[:ABOUT]->(product)
-CREATE (complaint)-[:WITH]->(issue)
 CREATE (complaint)-[:AGAINST]->(company)
 CREATE (response)-[r:TO]->(complaint)
 
 SET r.timely = CASE line.TimelyResponse WHEN 'Yes' THEN true ELSE false END,
     r.disputed = CASE line.ConsumerDisputed WHEN 'Yes' THEN true ELSE false END
+;
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS 
+FROM 'file:///Users/nicole/Documents/GitHub/consumer_complaints/consumer_complaints_304k.csv' AS line
+
+MATCH (complaint:Complaint { id: TOINT(line.ComplaintID) })
+
+MERGE (product:Product { name: UPPER(line.Product) })
+MERGE (issue:Issue {name: UPPER(line.Issue) })
+
+CREATE (complaint)-[:ABOUT]->(product)
+CREATE (complaint)-[:WITH]->(issue)
 ;
 
 
