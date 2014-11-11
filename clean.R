@@ -24,7 +24,7 @@ names(complaints) = c("ComplaintID",
 complaints = filter(complaints, Issue != "")
 
 # Format the date received column.
-complaints$DateReceived = as.Date(complaints$DateReceived, format = "%m/%d/%y")
+complaints$DateReceived = as.Date(complaints$DateReceived, format = "%m/%d/%Y")
 
 # Replace empty disputed with 'No'.
 complaints$ConsumerDisputed = ifelse(complaints$ConsumerDisputed == "Yes", "Yes", "No")
