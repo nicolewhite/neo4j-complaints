@@ -1,4 +1,4 @@
 # consumer_complaints
 
-![diagram](https://github.com/nicolewhite/consumer_complaints/blob/master/diagram.svg)
+http://catalog.data.gov/dataset/consumer-complaint-database
 
