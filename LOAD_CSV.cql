@@ -12,7 +12,7 @@ FROM 'file:///Users/nicole/Consumer_Complaints.csv' AS line
 WITH line, SPLIT(line.`Date received`, '/') AS date
 
 CREATE (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
-SET complaint.year = 2000 + TOINT(date[2]),
+SET complaint.year = TOINT(date[2]),
     complaint.month = TOINT(date[0]),
     complaint.day = TOINT(date[1])
 
