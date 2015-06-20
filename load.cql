@@ -1,3 +1,5 @@
+export FILEPATH=file:///Users/nicole/Documents/GitHub/neo4j-complaints/Consumer_Complaints.csv
+
 // Complaints, companies, responses.
 
 	// Uniqueness constraints.
@@ -8,7 +10,7 @@ CREATE CONSTRAINT ON (r:Response) ASSERT r.name IS UNIQUE;
 	// Load.
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
-FROM 'file:///Users/nicole/Consumer_Complaints.csv' AS line
+FROM {FILEPATH} AS line
 WITH line, SPLIT(line.`Date received`, '/') AS date
 
 CREATE (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
@@ -35,7 +37,7 @@ CREATE CONSTRAINT ON (i:Issue) ASSERT i.name IS UNIQUE;
 	// Load.
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
-FROM 'file:///Users/nicole/Consumer_Complaints.csv' AS line
+FROM {FILEPATH} AS line
 
 MATCH (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 
@@ -47,6 +49,7 @@ CREATE (complaint)-[:WITH]->(issue)
 ;
 
 // Sub issues, sub products.
+
 	// Uniqueness constraints.
 CREATE CONSTRAINT ON (s:SubProduct) ASSERT s.name IS UNIQUE;
 CREATE CONSTRAINT ON (s:SubIssue) ASSERT s.name IS UNIQUE;
@@ -54,7 +57,8 @@ CREATE CONSTRAINT ON (s:SubIssue) ASSERT s.name IS UNIQUE;
 	// Load.
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS
-FROM 'file:///Users/nicole/subissues.csv' AS line
+FROM {FILEPATH} AS line
+WITH line WHERE line.`Sub-issue` <> ''
 
 MATCH (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 MATCH (complaint)-[:WITH]->(issue:Issue)
@@ -66,7 +70,8 @@ CREATE (complaint)-[:WITH]->(subIssue)
 
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS
-FROM 'file:///Users/nicole/subproducts.csv' AS line
+FROM {FILEPATH} AS line
+WITH line WHERE line.`Sub-product` <> ''
 
 MATCH (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 MATCH (complaint)-[:ABOUT]->(product:Product)
