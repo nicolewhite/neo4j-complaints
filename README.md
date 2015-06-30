@@ -12,19 +12,11 @@ This code accompanies the webinar [Using LOAD CSV in the Real World](http://watc
 
 ## Import
 
-* Change line 1 of `load.cql` to point to the location of your `Consumer_Complaints.csv` file.
+- Change line 1 of `load.cql` to point to the location of your `Consumer_Complaints.csv` file.
+    - OSX and Unix: `file:///path/to/Consumer_Complaints.csv`
+    - Windows: `file:C:/path/to/Consumer_Complaints.csv`
 
-### OSX and Unix 
-`file:///path/to/data.csv`
-
-### Windows
-`file:C:/path/to/data.csv`
-
-* Send `load.cql` to the `neo4j-shell`:
-
-```
-./bin/neo4j-shell -file load.cql
-```
+- Send `load.cql` to the `neo4j-shell`: `./bin/neo4j-shell -file load.cql`
 
 **Important**
 Note that this import was done on a 16GB machine. If you have less RAM and particularly if you are on Windows, please see these blog posts:
