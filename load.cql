@@ -12,7 +12,8 @@ USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
 FROM {FILEPATH} AS line
 WITH DISTINCT line, SPLIT(line.`Date received`, '/') AS date
-WHERE line.`Company response to consumer` IS NOT NULL
+WHERE line.`Company response to consumer` IS NOT NULL AND
+      line.Company IS NOT NULL
 
 CREATE (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 SET complaint.year = TOINT(date[2]),
@@ -39,6 +40,9 @@ CREATE CONSTRAINT ON (i:Issue) ASSERT i.name IS UNIQUE;
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
 FROM {FILEPATH} AS line
+WITH line
+WHERE line.Product IS NOT NULL AND
+      line.Issue IS NOT NULL
 
 MATCH (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 
@@ -59,7 +63,9 @@ CREATE CONSTRAINT ON (s:SubIssue) ASSERT s.name IS UNIQUE;
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS
 FROM {FILEPATH} AS line
-WITH line WHERE line.`Sub-issue` <> ''
+WITH line 
+WHERE line.`Sub-issue` <> '' AND
+      line.`Sub-issue` IS NOT NULL
 
 MATCH (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 MATCH (complaint)-[:WITH]->(issue:Issue)
@@ -72,7 +78,9 @@ CREATE (complaint)-[:WITH]->(subIssue)
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS
 FROM {FILEPATH} AS line
-WITH line WHERE line.`Sub-product` <> ''
+WITH line 
+WHERE line.`Sub-product` <> '' AND
+      line.`Sub-product` IS NOT NULL
 
 MATCH (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 MATCH (complaint)-[:ABOUT]->(product:Product)
