@@ -1,4 +1,4 @@
-export FILEPATH=file:///Users/nicole/Documents/GitHub/neo4j-complaints/Consumer_Complaints.csv
+export FILEPATH=file:///Users/nicolewhite/Consumer_Complaints.csv
 
 // Complaints, companies, responses.
 
@@ -11,7 +11,8 @@ CREATE CONSTRAINT ON (r:Response) ASSERT r.name IS UNIQUE;
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS 
 FROM {FILEPATH} AS line
-WITH line, SPLIT(line.`Date received`, '/') AS date
+WITH DISTINCT line, SPLIT(line.`Date received`, '/') AS date
+WHERE line.`Company response to consumer` IS NOT NULL
 
 CREATE (complaint:Complaint { id: TOINT(line.`Complaint ID`) })
 SET complaint.year = TOINT(date[2]),
@@ -19,7 +20,7 @@ SET complaint.year = TOINT(date[2]),
     complaint.day = TOINT(date[1])
 
 MERGE (company:Company { name: UPPER(line.Company) })
-MERGE (response:Response { name: UPPER(line.`Company response`) })
+MERGE (response:Response { name: UPPER(line.`Company response to consumer`) })
 
 CREATE (complaint)-[:AGAINST]->(company)
 CREATE (response)-[r:TO]->(complaint)
